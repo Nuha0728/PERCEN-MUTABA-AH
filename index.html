@@ -1,0 +1,1435 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mutaba'ah Hafalan - SMP IT Permata Cendekia</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=IBM+Plex+Serif:wght@400;600&amp;display=swap" rel="stylesheet">
+  <style>
+    html { height: 100%; }
+    body { height: 100%; margin: 0; font-family: 'Space Grotesk', sans-serif; }
+
+    .bg-modern {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #0f1419 50%, #1a1f2e 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .bg-modern::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(34, 197, 94, 0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeSlideDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes scaleIn { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+    @keyframes successPop { 0% { opacity: 0; transform: scale(0.5); } 50% { transform: scale(1.08); } 100% { opacity: 1; transform: scale(1); } }
+    @keyframes floatUp { 0% { opacity: 0; transform: translateY(20px); } 15% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; transform: translateY(-20px); } }
+    @keyframes spinGrow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes checkDraw { from { stroke-dashoffset: 50; } to { stroke-dashoffset: 0; } }
+
+    .anim-fade-up { animation: fadeSlideUp 0.6s ease-out both; }
+    .anim-fade-down { animation: fadeSlideDown 0.5s ease-out both; }
+    .anim-scale-in { animation: scaleIn 0.5s ease-out both; }
+    .anim-success { animation: successPop 0.5s ease-out both; }
+    .toast-anim { animation: floatUp 3.5s ease-in-out both; }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+
+    .app-scroll::-webkit-scrollbar { width: 8px; }
+    .app-scroll::-webkit-scrollbar-track { background: rgba(30, 41, 59, 0.3); }
+    .app-scroll::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.4); border-radius: 999px; }
+    .app-scroll::-webkit-scrollbar-thumb:hover { background: rgba(59, 130, 246, 0.6); }
+
+    .input-modern {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      backdrop-filter: blur(8px);
+      color: #e2e8f0;
+      transition: all 0.3s ease;
+    }
+    .input-modern:focus {
+      background: rgba(15, 23, 42, 0.8);
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 0 20px rgba(59, 130, 246, 0.3);
+      outline: none;
+    }
+    .input-modern::placeholder {
+      color: rgba(148, 163, 184, 0.5);
+    }
+
+    .card-glass {
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(59, 130, 246, 0.15);
+      transition: all 0.3s ease;
+    }
+    .card-glass:hover {
+      background: rgba(15, 23, 42, 0.5);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 8px 32px rgba(59, 130, 246, 0.15);
+    }
+
+    .btn-modern {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      border: none;
+      color: white;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      font-weight: 600;
+    }
+    .btn-modern:hover {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+      transform: translateY(-2px);
+    }
+    .btn-modern:active {
+      transform: translateY(0);
+    }
+
+    .badge-mumtaz { background: linear-gradient(135deg, #10b981, #059669); }
+    .badge-jayyid-jiddan { background: linear-gradient(135deg, #0284c7, #0369a1); }
+    .badge-jayyid { background: linear-gradient(135deg, #d97706, #b45309); }
+    .badge-maqbul { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+    .badge-perlu-muraja { background: linear-gradient(135deg, #ef4444, #dc2626); }
+
+    .record-card {
+      background: rgba(30, 41, 59, 0.4);
+      border: 1px solid rgba(59, 130, 246, 0.15);
+      backdrop-filter: blur(12px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .record-card:hover {
+      transform: translateY(-4px);
+      background: rgba(30, 41, 59, 0.6);
+      border-color: rgba(59, 130, 246, 0.3);
+      box-shadow: 0 12px 32px rgba(59, 130, 246, 0.2);
+    }
+
+    .stat-card {
+      background: rgba(59, 130, 246, 0.1);
+      border-l-4 border-blue-500;
+      backdrop-filter: blur(8px);
+    }
+
+    .confirm-overlay {
+      backdrop-filter: blur(8px);
+      background: rgba(15, 23, 42, 0.6);
+    }
+
+    .dropdown-list {
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      backdrop-filter: blur(12px);
+      max-height: 240px;
+      overflow-y: auto;
+    }
+    .dropdown-list::-webkit-scrollbar { width: 4px; }
+    .dropdown-list::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.4); border-radius: 999px; }
+
+    .header-hero {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    .header-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.15), transparent 70%);
+      pointer-events: none;
+    }
+
+    .sidenav {
+      width: 280px;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(12px);
+      border-right: 1px solid rgba(59, 130, 246, 0.15);
+      height: 100%;
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 40;
+      overflow-y: auto;
+    }
+
+    .sidenav::-webkit-scrollbar { width: 4px; }
+    .sidenav::-webkit-scrollbar-thumb { background: rgba(59, 130, 246, 0.3); border-radius: 999px; }
+
+    .main-content {
+      margin-left: 280px;
+      width: calc(100% - 280px);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidenav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      margin: 8px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #94a3b8;
+      font-weight: 500;
+      border: 1px solid transparent;
+    }
+
+    .sidenav-item:hover {
+      background: rgba(59, 130, 246, 0.1);
+      color: #cbd5e1;
+    }
+
+    .sidenav-item.active {
+      background: rgba(59, 130, 246, 0.2);
+      color: #3b82f6;
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .sidenav-divider {
+      height: 1px;
+      background: rgba(59, 130, 246, 0.1);
+      margin: 12px;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      backdrop-filter: blur(8px);
+      background: rgba(15, 23, 42, 0.6);
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #3b82f6, #22c55e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    @media (max-width: 1024px) {
+      .sidenav { width: 240px; }
+      .main-content { margin-left: 240px; width: calc(100% - 240px); }
+    }
+
+    @media (max-width: 768px) {
+      .sidenav {
+        width: 100%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid rgba(59, 130, 246, 0.15);
+        flex-direction: row;
+        overflow-x: auto;
+        z-index: 40;
+      }
+      .sidenav::-webkit-scrollbar { height: 4px; }
+      .main-content { margin-left: 0; width: 100%; margin-top: 70px; }
+      .sidenav-item { flex-shrink: 0; }
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+ </head>
+ <body class="h-full font-['Space_Grotesk']">
+  <div id="app-root" class="h-full w-full overflow-hidden bg-modern" style="background-color: #0f172a; display: flex;"><!-- Sidebar Navigation -->
+   <aside id="sidenav" class="sidenav anim-fade-down">
+    <div class="p-4 border-b border-slate-700/30">
+     <div class="flex items-center gap-3 mb-2">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-green-500 flex items-center justify-center text-white text-lg font-bold">
+       📖
+      </div>
+      <div>
+       <p class="text-white text-xs font-bold">SMPIT PERMATA</p>
+       <p class="text-slate-500 text-xs">Hafalan</p>
+      </div>
+     </div>
+    </div>
+    <nav class="p-2"><button onclick="switchTab('form')" class="sidenav-item active" id="nav-form">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+       <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+      </svg><span>Input Setoran</span> </button> <button onclick="switchTab('muroja')" class="sidenav-item" id="nav-muroja">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+       <path stroke-linecap="round" stroke-linejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+      </svg><span>Muroja'ah</span> </button> <button onclick="switchTab('history')" class="sidenav-item" id="nav-history">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+       <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg><span>Riwayat</span> </button>
+     <div class="sidenav-divider"></div><button onclick="switchTab('students')" class="sidenav-item" id="nav-students">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+       <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+      </svg><span>Data Siswa</span> </button>
+    </nav>
+   </aside><!-- Main Content -->
+   <main class="main-content app-scroll" style="overflow-y: auto;"><!-- Header -->
+    <header class="header-hero anim-fade-down sticky top-0 z-20">
+     <div class="px-6 py-4 flex items-start justify-between">
+      <div class="flex-1">
+       <h1 id="el-school-name" class="text-white text-2xl font-bold">SMP IT Permata Cendekia</h1>
+       <p id="el-app-title" class="text-slate-400 text-sm mt-1">Mutaba'ah Hafalan &amp; Setoran</p>
+      </div>
+      <div class="text-right">
+       <p id="date-display" class="text-blue-400 text-sm font-semibold">-</p>
+       <p id="time-display" class="text-slate-500 text-xs mt-1">-</p>
+      </div>
+     </div>
+    </header><!-- Stats Overview -->
+    <div class="px-6 py-4 grid grid-cols-2 md:grid-cols-4 gap-3 anim-fade-up delay-1">
+     <div class="stat-card rounded-2xl p-3">
+      <p class="text-slate-400 text-xs font-medium">Total Setoran</p>
+      <p class="stat-number text-2xl mt-1">-</p>
+      <p id="stat-total" class="text-slate-500 text-xs mt-0.5">0 data</p>
+     </div>
+     <div class="stat-card rounded-2xl p-3">
+      <p class="text-slate-400 text-xs font-medium">Mumtaz</p>
+      <p class="stat-number text-2xl mt-1" id="stat-mumtaz">0</p>
+      <p class="text-emerald-400 text-xs mt-0.5">⭐ Sempurna</p>
+     </div>
+     <div class="stat-card rounded-2xl p-3">
+      <p class="text-slate-400 text-xs font-medium">Hari Ini</p>
+      <p class="stat-number text-2xl mt-1" id="stat-today">0</p>
+      <p class="text-blue-400 text-xs mt-0.5">📅 Input</p>
+     </div>
+     <div class="stat-card rounded-2xl p-3">
+      <p class="text-slate-400 text-xs font-medium">Data Siswa</p>
+      <p class="stat-number text-2xl mt-1" id="stat-students">0</p>
+      <p class="text-purple-400 text-xs mt-0.5">👥 Terdaftar</p>
+     </div>
+    </div><!-- Content Container -->
+    <div class="flex-1 px-6 py-6 pb-10"><!-- Data Siswa Section -->
+     <section id="section-students" class="hidden anim-fade-up delay-3">
+      <div class="card-glass rounded-3xl overflow-hidden">
+       <div class="px-6 py-5 border-b border-slate-700/30 bg-gradient-to-r from-purple-500/5 to-pink-500/5">
+        <h3 class="text-slate-100 font-bold text-lg flex items-center gap-3"><span class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white">👥</span> Manajemen Data Siswa</h3>
+        <p class="text-slate-400 text-sm mt-2 ml-13">Tambahkan data siswa untuk memudahkan input setoran hafalan</p>
+       </div>
+       <div class="p-6 space-y-4"><!-- Add Student Form -->
+        <div class="bg-slate-900/30 rounded-2xl p-4 border border-slate-700/30">
+         <h4 class="text-slate-200 font-semibold text-sm mb-3">➕ Tambah Siswa Baru</h4>
+         <div class="grid md:grid-cols-3 gap-3"><input id="input-student-nama" type="text" placeholder="Nama lengkap" class="input-modern px-4 py-2 rounded-xl text-sm"> <select id="input-student-kelas" class="input-modern px-4 py-2 rounded-xl text-sm appearance-none"> <option value="">Pilih Kelas</option> <option value="VII-A">VII-A</option><option value="VII-B">VII-B</option> <option value="VIII-A">VIII-A</option><option value="VIII-B">VIII-B</option> <option value="IX-A">IX-A</option><option value="IX-B">IX-B</option> </select> <button onclick="addStudent()" class="btn-modern px-4 py-2 rounded-xl text-sm font-semibold">Simpan Siswa</button>
+         </div>
+        </div><!-- Students List -->
+        <div>
+         <h4 class="text-slate-200 font-semibold text-sm mb-3">📋 Daftar Siswa</h4>
+         <div id="students-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-[500px] overflow-auto app-scroll">
+          <div class="text-center py-8 text-slate-500 col-span-full">
+           <p>Belum ada data siswa</p>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- Form Section -->
+     <section id="section-form" class="anim-fade-up delay-3">
+      <div class="card-glass rounded-3xl overflow-hidden">
+       <div class="px-6 py-5 border-b border-slate-700/30 bg-gradient-to-r from-blue-500/5 to-green-500/5">
+        <h3 class="text-slate-100 font-bold text-lg flex items-center gap-3"><span class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white">✏️</span> Input Data Setoran</h3>
+        <p class="text-slate-400 text-sm mt-2 ml-13">Lengkapi formulir untuk mencatat hafalan santri</p>
+       </div>
+       <form id="setoran-form" class="p-6 space-y-5" onsubmit="return false;"><!-- Row 1: Nama & Kelas -->
+        <div class="grid md:grid-cols-2 gap-5">
+         <div><label for="input-nama" class="block text-sm font-semibold text-slate-200 mb-2"> Nama Santri <span class="text-red-400">*</span> </label>
+          <div class="relative"><input id="input-nama" type="text" placeholder="Pilih nama siswa" oninput="filterStudents()" class="input-modern w-full px-4 py-2.5 rounded-xl text-slate-100" required>
+           <div id="students-dropdown" class="hidden absolute top-full left-0 right-0 mt-2 rounded-2xl dropdown-list z-10"></div>
+          </div>
+          <p id="err-nama" class="text-red-400 text-xs mt-1 hidden">Wajib diisi</p>
+         </div>
+         <div><label for="input-kelas" class="block text-sm font-semibold text-slate-200 mb-2"> Kelas <span class="text-red-400">*</span> </label> <input id="input-kelas" type="text" class="input-modern w-full px-4 py-2.5 rounded-xl text-slate-100 bg-slate-700/50 cursor-not-allowed" readonly>
+          <p id="err-kelas" class="text-red-400 text-xs mt-1 hidden">Wajib dipilih</p>
+         </div>
+        </div><!-- Jenis Setoran -->
+        <div><label class="block text-sm font-semibold text-slate-200 mb-2">Jenis Setoran <span class="text-red-400">*</span></label>
+         <div class="flex gap-3"><button type="button" id="btn-surat" onclick="selectJenis('Surat')" class="flex-1 py-2.5 px-4 rounded-xl border-2 border-blue-500 bg-blue-500/20 text-blue-300 font-semibold transition-all duration-200">📗 Surat</button> <button type="button" id="btn-juz" onclick="selectJenis('Juz')" class="flex-1 py-2.5 px-4 rounded-xl border-2 border-slate-600 bg-transparent text-slate-400 font-semibold transition-all duration-200">📘 Juz</button>
+         </div>
+        </div><!-- Surat/Juz with autocomplete -->
+        <div><label for="input-surat-juz" class="block text-sm font-semibold text-slate-200 mb-2"> <span id="label-surat-juz">Nama Surat</span> <span class="text-red-400">*</span> </label>
+         <div class="relative"><input id="input-surat-juz" type="text" placeholder="Cari atau ketik nama surat..." oninput="filterSurat()" class="input-modern w-full px-4 py-2.5 rounded-xl text-slate-100" required>
+          <div id="surat-dropdown" class="hidden absolute top-full left-0 right-0 mt-2 rounded-2xl dropdown-list z-10"><!-- Filled by JS -->
+          </div>
+         </div>
+         <p id="err-surat-juz" class="text-red-400 text-xs mt-1 hidden">Wajib diisi</p>
+        </div><!-- Ayat Range -->
+        <div class="grid md:grid-cols-2 gap-5">
+         <div><label for="input-ayat-dari" class="block text-sm font-semibold text-slate-200 mb-2">Ayat Dari <span class="text-red-400">*</span></label> <input id="input-ayat-dari" type="number" min="1" placeholder="1" class="input-modern w-full px-4 py-2.5 rounded-xl text-slate-100 text-center" required>
+          <p id="err-ayat-dari" class="text-red-400 text-xs mt-1 hidden">Wajib diisi</p>
+         </div>
+         <div><label for="input-ayat-sampai" class="block text-sm font-semibold text-slate-200 mb-2">Ayat Sampai <span class="text-red-400">*</span></label> <input id="input-ayat-sampai" type="number" min="1" placeholder="10" class="input-modern w-full px-4 py-2.5 rounded-xl text-slate-100 text-center" required>
+          <p id="err-ayat-sampai" class="text-red-400 text-xs mt-1 hidden">Wajib diisi</p>
+         </div>
+        </div><!-- Predikat -->
+        <div><label class="block text-sm font-semibold text-slate-200 mb-3">Predikat <span class="text-red-400">*</span></label>
+         <div class="grid grid-cols-2 md:grid-cols-3 gap-2"><button type="button" onclick="selectPredikat('Mumtaz')" class="predikat-btn py-2.5 px-3 rounded-xl border-2 border-slate-600 text-slate-400 font-semibold text-sm transition-all duration-200" data-val="Mumtaz">⭐ Mumtaz</button> <button type="button" onclick="selectPredikat('Jayyid Jiddan')" class="predikat-btn py-2.5 px-3 rounded-xl border-2 border-slate-600 text-slate-400 font-semibold text-sm transition-all duration-200" data-val="Jayyid Jiddan">🌟 Jayyid Jiddan</button> <button type="button" onclick="selectPredikat('Jayyid')" class="predikat-btn py-2.5 px-3 rounded-xl border-2 border-slate-600 text-slate-400 font-semibold text-sm transition-all duration-200" data-val="Jayyid">✨ Jayyid</button> <button type="button" onclick="selectPredikat('Maqbul')" class="predikat-btn py-2.5 px-3 rounded-xl border-2 border-slate-600 text-slate-400 font-semibold text-sm transition-all duration-200" data-val="Maqbul">📌 Maqbul</button> <button type="button" onclick="selectPredikat('Perlu Muraja\'ah')" class="predikat-btn col-span-2 md:col-span-2 py-2.5 px-3 rounded-xl border-2 border-slate-600 text-slate-400 font-semibold text-sm transition-all duration-200" data-val="Perlu Muraja'ah">🔄 Perlu Muraja'ah</button>
+         </div>
+         <p id="err-predikat" class="text-red-400 text-xs mt-2 hidden">Wajib dipilih</p>
+        </div><!-- Catatan -->
+        <div><label for="input-catatan" class="block text-sm font-semibold text-slate-200 mb-2"> Catatan <span class="text-slate-500 font-normal">(Opsional)</span> </label> <textarea id="input-catatan" rows="2" placeholder="Tambahkan catatan penting..." class="input-modern w-full px-4 py-2.5 rounded-xl text-slate-100 resize-none"></textarea>
+        </div><!-- Submit Button --> <button id="btn-submit" type="button" onclick="submitSetoran()" class="btn-modern w-full py-3 rounded-xl text-white font-semibold flex items-center justify-center gap-2 mt-6"> <span id="btn-submit-text" class="flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+           <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg> Simpan </span> <span id="btn-submit-loading" class="hidden flex items-center gap-2">
+          <svg class="w-5 h-5" style="animation: spinGrow 1s linear infinite;" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+           <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg> Menyimpan... </span> </button>
+       </form>
+      </div>
+     </section><!-- Muroja'ah Section -->
+     <section id="section-muroja" class="hidden anim-fade-up delay-3">
+      <div class="card-glass rounded-3xl overflow-hidden">
+       <div class="px-6 py-5 border-b border-slate-700/30 bg-gradient-to-r from-purple-500/5 to-pink-500/5">
+        <h3 class="text-slate-100 font-bold text-lg flex items-center gap-3"><span class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white">🔄</span> Input Muroja'ah</h3>
+        <p class="text-slate-400 text-sm mt-2 ml-13">Catat pengulangan hafalan santri</p>
+       </div>
+       <form id="muroja-form" class="p-6 space-y-5" onsubmit="return false;"><!-- Row 1: Tanggal & Nama -->
+        <div class="grid md:grid-cols-2 gap-5">
+         <div><label for="muroja-tanggal" class="block text-sm font-semibold text-slate-200 mb-2"> Tanggal <span class="text-red-400">*</span> </label> <input id="muroja-tanggal" type="date" class="input-modern w-full px-4 py-2.5 rounded-xl text-slate-100" required>
+          <p id="err-muroja-tanggal" class="text-red-400 text-xs mt-1 hidden">Wajib diisi</p>
+         </div>
+         <div><label for="muroja-nama" class="block text-sm font-semibold text-slate-200 mb-2"> Nama Santri <span class="text-red-400">*</span> </label>
+          <div class="relative"><input id="muroja-nama" type="text" placeholder="Pilih nama siswa" oninput="filterMurojaStudents()" class="input-modern w-full px-4 py-2.5 rounded-xl text-slate-100" required>
+           <div id="muroja-students-dropdown" class="hidden absolute top-full left-0 right-0 mt-2 rounded-2xl dropdown-list z-10"></div>
+          </div>
+          <p id="err-muroja-nama" class="text-red-400 text-xs mt-1 hidden">Wajib diisi</p>
+         </div>
+        </div><!-- Row 2: Kelas & Jenis -->
+        <div class="grid md:grid-cols-2 gap-5">
+         <div><label for="muroja-kelas" class="block text-sm font-semibold text-slate-200 mb-2"> Kelas <span class="text-red-400">*</span> </label> <input id="muroja-kelas" type="text" class="input-modern w-full px-4 py-2.5 rounded-xl text-slate-100 bg-slate-700/50 cursor-not-allowed" readonly required>
+          <p id="err-muroja-kelas" class="text-red-400 text-xs mt-1 hidden">Wajib dipilih</p>
+         </div>
+         <div><label class="block text-sm font-semibold text-slate-200 mb-2">Jenis <span class="text-red-400">*</span></label>
+          <div class="flex gap-3"><button type="button" id="muroja-btn-surat" onclick="selectMurojaJenis('Surat')" class="flex-1 py-2.5 px-4 rounded-xl border-2 border-blue-500 bg-blue-500/20 text-blue-300 font-semibold transition-all duration-200">📗 Surat</button> <button type="button" id="muroja-btn-juz" onclick="selectMurojaJenis('Juz')" class="flex-1 py-2.5 px-4 rounded-xl border-2 border-slate-600 bg-transparent text-slate-400 font-semibold transition-all duration-200">📘 Juz</button>
+          </div>
+         </div>
+        </div><!-- Surat/Juz -->
+        <div><label for="muroja-surat-juz" class="block text-sm font-semibold text-slate-200 mb-2"> <span id="muroja-label-surat-juz">Nama Surat</span> <span class="text-red-400">*</span> </label>
+         <div class="relative"><input id="muroja-surat-juz" type="text" placeholder="Cari atau ketik nama surat..." oninput="filterMurojaSurat()" class="input-modern w-full px-4 py-2.5 rounded-xl text-slate-100" required>
+          <div id="muroja-surat-dropdown" class="hidden absolute top-full left-0 right-0 mt-2 rounded-2xl dropdown-list z-10"></div>
+         </div>
+         <p id="err-muroja-surat-juz" class="text-red-400 text-xs mt-1 hidden">Wajib diisi</p>
+        </div><!-- Ayat Range -->
+        <div class="grid md:grid-cols-2 gap-5">
+         <div><label for="muroja-ayat-dari" class="block text-sm font-semibold text-slate-200 mb-2">Ayat Dari <span class="text-red-400">*</span></label> <input id="muroja-ayat-dari" type="number" min="1" placeholder="1" class="input-modern w-full px-4 py-2.5 rounded-xl text-slate-100 text-center" required>
+          <p id="err-muroja-ayat-dari" class="text-red-400 text-xs mt-1 hidden">Wajib diisi</p>
+         </div>
+         <div><label for="muroja-ayat-sampai" class="block text-sm font-semibold text-slate-200 mb-2">Ayat Sampai <span class="text-red-400">*</span></label> <input id="muroja-ayat-sampai" type="number" min="1" placeholder="10" class="input-modern w-full px-4 py-2.5 rounded-xl text-slate-100 text-center" required>
+          <p id="err-muroja-ayat-sampai" class="text-red-400 text-xs mt-1 hidden">Wajib diisi</p>
+         </div>
+        </div><!-- Predikat -->
+        <div><label class="block text-sm font-semibold text-slate-200 mb-3">Predikat <span class="text-red-400">*</span></label>
+         <div class="grid grid-cols-2 md:grid-cols-3 gap-2"><button type="button" onclick="selectMurojaPredikat('Mumtaz')" class="muroja-predikat-btn py-2.5 px-3 rounded-xl border-2 border-slate-600 text-slate-400 font-semibold text-sm transition-all duration-200" data-val="Mumtaz">⭐ Mumtaz</button> <button type="button" onclick="selectMurojaPredikat('Jayyid Jiddan')" class="muroja-predikat-btn py-2.5 px-3 rounded-xl border-2 border-slate-600 text-slate-400 font-semibold text-sm transition-all duration-200" data-val="Jayyid Jiddan">🌟 Jayyid Jiddan</button> <button type="button" onclick="selectMurojaPredikat('Jayyid')" class="muroja-predikat-btn py-2.5 px-3 rounded-xl border-2 border-slate-600 text-slate-400 font-semibold text-sm transition-all duration-200" data-val="Jayyid">✨ Jayyid</button> <button type="button" onclick="selectMurojaPredikat('Maqbul')" class="muroja-predikat-btn py-2.5 px-3 rounded-xl border-2 border-slate-600 text-slate-400 font-semibold text-sm transition-all duration-200" data-val="Maqbul">📌 Maqbul</button> <button type="button" onclick="selectMurojaPredikat('Perlu Diulang')" class="muroja-predikat-btn col-span-2 md:col-span-2 py-2.5 px-3 rounded-xl border-2 border-slate-600 text-slate-400 font-semibold text-sm transition-all duration-200" data-val="Perlu Diulang">🔄 Perlu Diulang</button>
+         </div>
+         <p id="err-muroja-predikat" class="text-red-400 text-xs mt-2 hidden">Wajib dipilih</p>
+        </div><!-- Catatan -->
+        <div><label for="muroja-catatan" class="block text-sm font-semibold text-slate-200 mb-2"> Catatan <span class="text-slate-500 font-normal">(Opsional)</span> </label> <textarea id="muroja-catatan" rows="2" placeholder="Tambahkan catatan penting..." class="input-modern w-full px-4 py-2.5 rounded-xl text-slate-100 resize-none"></textarea>
+        </div><!-- Submit Button --> <button id="muroja-btn-submit" type="button" onclick="submitMuroja()" class="btn-modern w-full py-3 rounded-xl text-white font-semibold flex items-center justify-center gap-2 mt-6"> <span id="muroja-btn-submit-text" class="flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+           <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg> Simpan Muroja'ah </span> <span id="muroja-btn-submit-loading" class="hidden flex items-center gap-2">
+          <svg class="w-5 h-5" style="animation: spinGrow 1s linear infinite;" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+           <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg> Menyimpan... </span> </button>
+       </form><!-- Muroja'ah History Table -->
+       <div class="p-6 border-t border-slate-700/30"><label class="block text-sm font-semibold text-slate-200 mb-2">✅ Riwayat Muroja'ah</label>
+        <div id="muroja-history-container" class="overflow-x-auto max-h-[400px] overflow-y-auto app-scroll">
+         <table class="w-full text-xs">
+          <thead class="sticky top-0 bg-slate-900/50">
+           <tr class="border-b border-slate-700/30">
+            <th class="text-left px-3 py-2 text-slate-400 font-semibold">Tanggal</th>
+            <th class="text-left px-3 py-2 text-slate-400 font-semibold">Nama</th>
+            <th class="text-left px-3 py-2 text-slate-400 font-semibold">Kelas</th>
+            <th class="text-left px-3 py-2 text-slate-400 font-semibold">Surat/Juz</th>
+            <th class="text-center px-3 py-2 text-slate-400 font-semibold">Ayat</th>
+            <th class="text-left px-3 py-2 text-slate-400 font-semibold">Predikat</th>
+            <th class="text-left px-3 py-2 text-slate-400 font-semibold">Waktu</th>
+            <th class="text-center px-3 py-2 text-slate-400 font-semibold">Aksi</th>
+           </tr>
+          </thead>
+          <tbody id="muroja-tbody">
+           <tr class="border-b border-slate-700/30">
+            <td colspan="8" class="text-center py-6 text-slate-500">Belum ada muroja'ah</td>
+           </tr>
+          </tbody>
+         </table>
+        </div>
+       </div>
+      </div>
+     </section><!-- History Section -->
+     <section id="section-history" class="hidden anim-fade-up delay-3">
+      <div class="card-glass rounded-3xl overflow-hidden">
+       <div class="px-6 py-5 border-b border-slate-700/30 bg-gradient-to-r from-amber-500/5 to-orange-500/5 flex items-center justify-between">
+        <h3 class="text-slate-100 font-bold text-lg flex items-center gap-3"><span class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-white">📊</span> Riwayat Setoran</h3><span id="total-records" class="text-xs font-semibold text-slate-200 bg-slate-700/50 rounded-full px-3 py-1">0 data</span>
+       </div><!-- Search & Filter -->
+       <div class="p-6 border-b border-slate-700/30 space-y-3"><input id="search-input" type="text" placeholder="Cari nama santri atau surat..." oninput="filterRecords()" class="input-modern w-full px-4 py-2.5 rounded-xl text-slate-100">
+        <div class="flex gap-2 overflow-x-auto pb-2"><button onclick="filterByKelas('')" class="kelas-filter shrink-0 text-xs font-semibold px-4 py-2 rounded-full transition-all bg-blue-500/20 border border-blue-500 text-blue-300" data-kelas="">Semua</button> <button onclick="filterByKelas('VII')" class="kelas-filter shrink-0 text-xs font-semibold px-4 py-2 rounded-full transition-all bg-slate-700/30 border border-slate-600 text-slate-300" data-kelas="VII">Kelas VII</button> <button onclick="filterByKelas('VIII')" class="kelas-filter shrink-0 text-xs font-semibold px-4 py-2 rounded-full transition-all bg-slate-700/30 border border-slate-600 text-slate-300" data-kelas="VIII">Kelas VIII</button> <button onclick="filterByKelas('IX')" class="kelas-filter shrink-0 text-xs font-semibold px-4 py-2 rounded-full transition-all bg-slate-700/30 border border-slate-600 text-slate-300" data-kelas="IX">Kelas IX</button>
+        </div>
+       </div><!-- Records list -->
+       <div id="records-container" class="p-6 space-y-3 max-h-[600px] overflow-auto app-scroll">
+        <div id="empty-state" class="text-center py-12">
+         <div class="text-5xl mb-3">
+          📭
+         </div>
+         <p class="text-slate-300 font-semibold">Belum ada data setoran</p>
+         <p class="text-slate-500 text-sm mt-1">Mulai input data untuk melihat riwayat</p>
+        </div>
+       </div>
+      </div>
+     </section>
+    </div>
+   </main>
+  </div><!-- Success Modal -->
+  <div id="success-modal" class="modal-overlay confirm-overlay">
+   <div id="success-card" class="card-glass rounded-3xl max-w-md w-full p-8 text-center anim-success border border-blue-500/50">
+    <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-emerald-500 to-green-600 flex items-center justify-center mb-4">
+     <svg class="w-9 h-9 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" style="stroke-dasharray: 50; animation: checkDraw 0.6s ease-out 0.2s both;" />
+     </svg>
+    </div>
+    <h3 class="text-slate-100 font-bold text-2xl">Alhamdulillah! ✨</h3>
+    <p class="text-slate-400 text-sm mt-2">Data setoran berhasil disimpan</p>
+    <div id="success-detail" class="mt-4 p-4 rounded-2xl bg-slate-700/30 border border-slate-600/50 text-left text-sm space-y-1.5"></div><button onclick="closeSuccessModal()" class="mt-6 w-full btn-modern py-2.5 rounded-xl">Tutup</button>
+   </div>
+  </div><!-- Delete Modal -->
+  <div id="delete-modal" class="modal-overlay confirm-overlay">
+   <div class="card-glass rounded-3xl max-w-md w-full p-8 text-center anim-scale-in border border-red-500/30">
+    <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center mb-4">
+     <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+     </svg>
+    </div>
+    <h3 class="text-slate-100 font-bold text-lg">Hapus Data?</h3>
+    <p id="delete-detail" class="text-slate-400 text-sm mt-2"></p>
+    <div class="flex gap-3 mt-6"><button onclick="closeDeleteModal()" class="flex-1 py-2.5 rounded-xl border border-slate-600 text-slate-300 font-semibold transition-all hover:bg-slate-700/30">Batal</button> <button id="btn-confirm-delete" onclick="confirmDelete()" class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-red-700 text-white font-semibold transition-all hover:shadow-lg hover:shadow-red-900/50">Hapus</button>
+    </div>
+   </div>
+  </div><!-- Student Delete Modal -->
+  <div id="delete-student-modal" class="modal-overlay confirm-overlay">
+   <div class="card-glass rounded-3xl max-w-md w-full p-8 text-center anim-scale-in border border-red-500/30">
+    <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center mb-4">
+     <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+     </svg>
+    </div>
+    <h3 class="text-slate-100 font-bold text-lg">Hapus Siswa?</h3>
+    <p id="delete-student-detail" class="text-slate-400 text-sm mt-2"></p>
+    <div class="flex gap-3 mt-6"><button onclick="closeDeleteStudentModal()" class="flex-1 py-2.5 rounded-xl border border-slate-600 text-slate-300 font-semibold transition-all hover:bg-slate-700/30">Batal</button> <button id="btn-confirm-delete-student" onclick="confirmDeleteStudent()" class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-red-700 text-white font-semibold transition-all hover:shadow-lg hover:shadow-red-900/50">Hapus</button>
+    </div>
+   </div>
+  </div><!-- Toast Container -->
+  <div id="toast-container" class="fixed top-6 right-6 z-50 space-y-2" style="pointer-events: none;"></div>
+  <script>
+    const suratList = [
+      'Al-Fatihah', 'Al-Baqarah', 'Ali Imran', 'An-Nisa\'', 'Al-Ma\'idah', 'Al-An\'am', 'Al-A\'raf', 'Al-Anfal', 'At-Taubah', 'Yunus',
+      'Hud', 'Yusuf', 'Ar-Ra\'d', 'Ibrahim', 'Al-Hijr', 'An-Nahl', 'Al-Isra\'', 'Al-Kahf', 'Maryam', 'Taha',
+      'Al-Anbiya\'', 'Al-Hajj', 'Al-Mu\'minun', 'An-Nur', 'Al-Furqan', 'Asy-Syu\'ara\'', 'An-Naml', 'Al-Qashash', 'Al-Ankabut', 'Ar-Rum',
+      'Luqman', 'As-Sajdah', 'Al-Ahzab', 'Saba\'', 'Fatir', 'Ya-Sin', 'As-Saffat', 'Sad', 'Az-Zumar', 'Ghafir',
+      'Fussilat', 'Asy-Syura', 'Az-Zukhruf', 'Ad-Dukhan', 'Al-Jasiyah', 'Al-Ahqaf', 'Muhammad', 'Al-Fath', 'Al-Hujurat', 'Qaf',
+      'Az-Zariyat', 'At-Tur', 'An-Najm', 'Al-Qamar', 'Ar-Rahman', 'Al-Waqi\'ah', 'Al-Hadid', 'Al-Mujadilah', 'Al-Hashr', 'Al-Mumtahanah',
+      'As-Saff', 'Al-Jumu\'ah', 'Al-Munafiqun', 'At-Taghabun', 'At-Talaq', 'At-Tahrim', 'Al-Mulk', 'Al-Qalam', 'Al-Haqqah', 'Al-Ma\'arij',
+      'Nuh', 'Al-Jinn', 'Al-Muzzammil', 'Al-Muddassir', 'Al-Qiyamah', 'Al-Insan', 'Al-Mursalat', 'An-Naba\'', 'An-Nazi\'at', 'Abasa',
+      'At-Takwir', 'Al-Infitar', 'At-Tatfif', 'Al-Inshiqaq', 'Al-Buruj', 'At-Tariq', 'Al-A\'la', 'Al-Ghasyiyah', 'Al-Fajr', 'Al-Balad',
+      'Asy-Syams', 'Al-Lail', 'Ad-Dhuha', 'Asy-Syarh', 'At-Tin', 'Al-Alaq', 'Al-Qadir', 'Al-Bayyinah', 'Al-Zilzal', 'Al-Adiyat',
+      'Al-Qari\'ah', 'At-Takasur', 'Al-Asr', 'Al-Humazah', 'Al-Fil', 'Quraisy', 'Al-Ma\'un', 'Al-Kautsar', 'Al-Kafirun', 'An-Nasr',
+      'Al-Lahab', 'Al-Ikhlas', 'Al-Falaq', 'An-Nas'
+    ];
+
+    const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbz5nKCS458wEKDuFCLsdemJGxlsBI8lXXiuwkemtXDXP3kQDU_A8HmsQcxTaFd2tmDQ8A/exec';
+
+    let allRecords = [], allMurojaRecords = [], allStudents = [], currentTab = 'form', selectedJenis = 'Surat', selectedPredikat = '', currentFilter = '', searchQuery = '', deleteTarget = null, deleteStudentTarget = null;
+    let selectedMurojaJenis = 'Surat', selectedMurojaPredikat = '';
+
+    function updateDateDisplay() {
+      const now = new Date();
+      const hariOptions = { weekday: 'long' };
+      const tanggalOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+      const timeOptions = { hour: '2-digit', minute: '2-digit' };
+      const hari = now.toLocaleDateString('id-ID', hariOptions);
+      const tanggal = now.toLocaleDateString('id-ID', tanggalOptions);
+      const waktu = now.toLocaleTimeString('id-ID', timeOptions);
+      document.getElementById('date-display').textContent = `${hari}, ${tanggal}`;
+      document.getElementById('time-display').textContent = waktu;
+    }
+
+    const dataHandler = {
+      onDataChanged(data) {
+        const setoran = data.filter(r => r.type === 'setoran').sort((a, b) => (b.tanggal ? new Date(b.tanggal).getTime() : 0) - (a.tanggal ? new Date(a.tanggal).getTime() : 0));
+        const muroja = data.filter(r => r.type === 'muroja').sort((a, b) => (b.tanggal ? new Date(b.tanggal).getTime() : 0) - (a.tanggal ? new Date(a.tanggal).getTime() : 0));
+        const siswa = data.filter(r => r.type === 'siswa').sort((a, b) => (a.nama || '').localeCompare(b.nama || ''));
+        allRecords = setoran;
+        allMurojaRecords = muroja;
+        allStudents = siswa;
+        updateStats();
+        renderStudentsList();
+        renderRecords();
+        renderMurojaTable();
+      }
+    };
+
+    async function initDataSdk() {
+      if (window.dataSdk) {
+        const result = await window.dataSdk.init(dataHandler);
+        if (!result.isOk) showToast('Gagal menginisialisasi database', 'error');
+      }
+    }
+    initDataSdk();
+
+    function updateStats() {
+      const today = new Date().toISOString().split('T')[0];
+      const todayRecords = allRecords.filter(r => r.tanggal && r.tanggal.startsWith(today)).length;
+      const mumtaz = allRecords.filter(r => r.predikat === 'Mumtaz').length;
+
+      document.getElementById('stat-total').textContent = `${allRecords.length} data`;
+      document.getElementById('stat-today').textContent = todayRecords;
+      document.getElementById('stat-mumtaz').textContent = mumtaz;
+      document.getElementById('stat-students').textContent = allStudents.length;
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      const navItems = document.querySelectorAll('.sidenav-item');
+      navItems.forEach(item => item.classList.remove('active'));
+
+      if (tab === 'students') {
+        document.getElementById('nav-students').classList.add('active');
+        document.getElementById('section-students').classList.remove('hidden');
+        document.getElementById('section-form').classList.add('hidden');
+        document.getElementById('section-muroja').classList.add('hidden');
+        document.getElementById('section-history').classList.add('hidden');
+      } else if (tab === 'form') {
+        document.getElementById('nav-form').classList.add('active');
+        document.getElementById('section-students').classList.add('hidden');
+        document.getElementById('section-form').classList.remove('hidden');
+        document.getElementById('section-muroja').classList.add('hidden');
+        document.getElementById('section-history').classList.add('hidden');
+      } else if (tab === 'muroja') {
+        document.getElementById('nav-muroja').classList.add('active');
+        document.getElementById('section-students').classList.add('hidden');
+        document.getElementById('section-form').classList.add('hidden');
+        document.getElementById('section-muroja').classList.remove('hidden');
+        document.getElementById('section-history').classList.add('hidden');
+      } else {
+        document.getElementById('nav-history').classList.add('active');
+        document.getElementById('section-students').classList.add('hidden');
+        document.getElementById('section-form').classList.add('hidden');
+        document.getElementById('section-muroja').classList.add('hidden');
+        document.getElementById('section-history').classList.remove('hidden');
+      }
+    }
+
+    async function addStudent() {
+      const nama = document.getElementById('input-student-nama').value.trim();
+      const kelas = document.getElementById('input-student-kelas').value;
+
+      if (!nama || !kelas) {
+        showToast('Lengkapi nama dan kelas siswa', 'error');
+        return;
+      }
+
+      if (allStudents.length + allRecords.length + allMurojaRecords.length >= 999) {
+        showToast('Batas maksimum data tercapai', 'error');
+        return;
+      }
+
+      const student = {
+        type: 'siswa',
+        nama: nama,
+        kelas: kelas,
+        tanggal: new Date().toISOString(),
+        sheet_name: 'Siswa'
+      };
+
+      if (window.dataSdk) {
+        const result = await window.dataSdk.create(student);
+        if (result.isOk) {
+          await sendToGoogleSheets(student);
+          document.getElementById('input-student-nama').value = '';
+          document.getElementById('input-student-kelas').value = '';
+          showToast(`Siswa ${nama} berhasil ditambahkan`, 'success');
+        } else {
+          showToast('Gagal menambahkan siswa', 'error');
+        }
+      }
+    }
+
+    function renderStudentsList() {
+      const container = document.getElementById('students-list');
+      if (allStudents.length === 0) {
+        container.innerHTML = '<div class="text-center py-8 text-slate-500 col-span-full"><p>Belum ada data siswa</p></div>';
+        return;
+      }
+
+      container.innerHTML = allStudents.map(student => `
+        <div class="bg-slate-900/30 rounded-2xl p-4 border border-slate-700/30 hover:border-blue-500/50 transition-all">
+          <div class="flex items-start justify-between mb-2">
+            <div>
+              <p class="text-slate-100 font-semibold text-sm">${escapeHtml(student.nama)}</p>
+              <p class="text-slate-500 text-xs mt-1">${escapeHtml(student.kelas)}</p>
+            </div>
+            <button onclick="requestDeleteStudent(allStudents.find(s => s.__backendId === '${student.__backendId}'))" class="text-red-400 hover:text-red-300 text-xs font-medium">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterStudents() {
+      const input = document.getElementById('input-nama');
+      const dropdown = document.getElementById('students-dropdown');
+      const value = input.value.trim().toLowerCase();
+
+      if (value.length === 0) {
+        dropdown.classList.add('hidden');
+        return;
+      }
+
+      let filtered = allStudents.filter(s => s.nama.toLowerCase().includes(value));
+      if (filtered.length === 0) {
+        dropdown.classList.add('hidden');
+        return;
+      }
+
+      dropdown.innerHTML = '';
+      filtered.slice(0, 10).forEach(student => {
+        const item = document.createElement('div');
+        item.className = 'px-4 py-2.5 hover:bg-slate-700/50 cursor-pointer text-slate-200 hover:text-blue-300 text-sm transition-all duration-150 border-b border-slate-700/30 last:border-0';
+        item.textContent = `${student.nama} (${student.kelas})`;
+        item.onclick = () => selectStudent(student);
+        dropdown.appendChild(item);
+      });
+
+      dropdown.classList.remove('hidden');
+    }
+
+    function selectStudent(student) {
+      document.getElementById('input-nama').value = student.nama;
+      document.getElementById('input-kelas').value = student.kelas;
+      document.getElementById('students-dropdown').classList.add('hidden');
+      document.getElementById('err-nama').classList.add('hidden');
+      document.getElementById('err-kelas').classList.add('hidden');
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#input-nama') && !e.target.closest('#students-dropdown')) {
+        document.getElementById('students-dropdown').classList.add('hidden');
+      }
+      if (!e.target.closest('#muroja-nama') && !e.target.closest('#muroja-students-dropdown')) {
+        document.getElementById('muroja-students-dropdown').classList.add('hidden');
+      }
+    });
+
+    function selectJenis(jenis) {
+      selectedJenis = jenis;
+      const btnSurat = document.getElementById('btn-surat');
+      const btnJuz = document.getElementById('btn-juz');
+      const label = document.getElementById('label-surat-juz');
+      const input = document.getElementById('input-surat-juz');
+
+      if (jenis === 'Surat') {
+        btnSurat.className = 'flex-1 py-2.5 px-4 rounded-xl border-2 border-blue-500 bg-blue-500/20 text-blue-300 font-semibold transition-all duration-200';
+        btnJuz.className = 'flex-1 py-2.5 px-4 rounded-xl border-2 border-slate-600 bg-transparent text-slate-400 font-semibold transition-all duration-200';
+        label.textContent = 'Nama Surat';
+        input.placeholder = 'Cari atau ketik nama surat...';
+      } else {
+        btnJuz.className = 'flex-1 py-2.5 px-4 rounded-xl border-2 border-blue-500 bg-blue-500/20 text-blue-300 font-semibold transition-all duration-200';
+        btnSurat.className = 'flex-1 py-2.5 px-4 rounded-xl border-2 border-slate-600 bg-transparent text-slate-400 font-semibold transition-all duration-200';
+        label.textContent = 'Nomor Juz';
+        input.placeholder = 'Contoh: Juz 30';
+      }
+      input.value = '';
+      closeSuratDropdown();
+    }
+
+    function filterSurat() {
+      const input = document.getElementById('input-surat-juz');
+      const dropdown = document.getElementById('surat-dropdown');
+      const value = input.value.trim().toLowerCase();
+
+      if (value.length === 0) {
+        closeSuratDropdown();
+        return;
+      }
+
+      let filtered = suratList.filter(s => s.toLowerCase().includes(value));
+      if (filtered.length === 0) {
+        closeSuratDropdown();
+        return;
+      }
+
+      dropdown.innerHTML = '';
+      filtered.slice(0, 10).forEach(surat => {
+        const item = document.createElement('div');
+        item.className = 'px-4 py-2.5 hover:bg-slate-700/50 cursor-pointer text-slate-200 hover:text-blue-300 text-sm transition-all duration-150 border-b border-slate-700/30 last:border-0';
+        item.textContent = surat;
+        item.onclick = () => selectSurat(surat);
+        dropdown.appendChild(item);
+      });
+
+      dropdown.classList.remove('hidden');
+    }
+
+    function selectSurat(surat) {
+      document.getElementById('input-surat-juz').value = surat;
+      closeSuratDropdown();
+      document.getElementById('err-surat-juz').classList.add('hidden');
+    }
+
+    function closeSuratDropdown() {
+      document.getElementById('surat-dropdown').classList.add('hidden');
+    }
+
+    function selectPredikat(predikat) {
+      selectedPredikat = predikat;
+      document.getElementById('err-predikat').classList.add('hidden');
+
+      document.querySelectorAll('.predikat-btn').forEach(btn => {
+        const val = btn.getAttribute('data-val');
+        if (val === predikat) {
+          btn.classList.remove('border-slate-600', 'text-slate-400');
+          btn.classList.add('border-blue-500', 'bg-blue-500/20', 'text-blue-300');
+        } else {
+          btn.classList.remove('border-blue-500', 'bg-blue-500/20', 'text-blue-300');
+          btn.classList.add('border-slate-600', 'text-slate-400');
+        }
+      });
+    }
+
+    function validateForm() {
+      let valid = true;
+      const fields = [
+        { id: 'input-nama', err: 'err-nama' },
+        { id: 'input-kelas', err: 'err-kelas' },
+        { id: 'input-surat-juz', err: 'err-surat-juz' },
+        { id: 'input-ayat-dari', err: 'err-ayat-dari' },
+        { id: 'input-ayat-sampai', err: 'err-ayat-sampai' }
+      ];
+
+      fields.forEach(f => {
+        const el = document.getElementById(f.id);
+        const errEl = document.getElementById(f.err);
+        if (!el.value.trim()) {
+          errEl.classList.remove('hidden');
+          valid = false;
+        } else {
+          errEl.classList.add('hidden');
+        }
+      });
+
+      if (!selectedPredikat) {
+        document.getElementById('err-predikat').classList.remove('hidden');
+        valid = false;
+      }
+
+      return valid;
+    }
+
+    async function sendToGoogleSheets(recordData) {
+      try {
+        const response = await fetch(GOOGLE_SHEETS_URL, {
+          method: 'POST',
+          body: JSON.stringify(recordData)
+        });
+        const result = await response.json();
+        return result.success === true;
+      } catch (error) {
+        console.error('Google Sheets sync error:', error);
+        return false;
+      }
+    }
+
+    async function submitSetoran() {
+      if (!validateForm()) {
+        showToast('Lengkapi semua field yang wajib diisi', 'error');
+        return;
+      }
+
+      if (allStudents.length + allRecords.length + allMurojaRecords.length >= 999) {
+        showToast('Batas maksimum 999 data tercapai', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('btn-submit');
+      const btnText = document.getElementById('btn-submit-text');
+      const btnLoading = document.getElementById('btn-submit-loading');
+
+      btn.disabled = true;
+      btn.style.opacity = '0.7';
+      btnText.classList.add('hidden');
+      btnLoading.classList.remove('hidden');
+
+      const now = new Date();
+      const hariOptions = { weekday: 'long' };
+      const tanggalOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+      const timeOptions = { hour: '2-digit', minute: '2-digit' };
+
+      const hari = now.toLocaleDateString('id-ID', hariOptions);
+      const tanggalDisplay = now.toLocaleDateString('id-ID', tanggalOptions);
+      const waktu = now.toLocaleTimeString('id-ID', timeOptions);
+
+      const record = {
+        type: 'setoran',
+        nama: document.getElementById('input-nama').value.trim(),
+        kelas: document.getElementById('input-kelas').value,
+        jenis_setoran: selectedJenis,
+        surat_juz: document.getElementById('input-surat-juz').value.trim(),
+        ayat_dari: document.getElementById('input-ayat-dari').value.trim(),
+        ayat_sampai: document.getElementById('input-ayat-sampai').value.trim(),
+        predikat: selectedPredikat,
+        catatan: document.getElementById('input-catatan').value.trim(),
+        tanggal: now.toISOString(),
+        hari: hari,
+        tanggal_display: tanggalDisplay,
+        waktu: waktu,
+        google_sheets_sync: false,
+        sheet_name: 'Setoran'
+      };
+
+      const googleSheetsSynced = await sendToGoogleSheets(record);
+      record.google_sheets_sync = googleSheetsSynced;
+
+      if (window.dataSdk) {
+        const result = await window.dataSdk.create(record);
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btnText.classList.remove('hidden');
+        btnLoading.classList.add('hidden');
+
+        if (result.isOk) {
+          showSuccessModal(record, googleSheetsSynced);
+          resetForm();
+        } else {
+          showToast('Gagal menyimpan data', 'error');
+        }
+      }
+    }
+
+    function resetForm() {
+      document.getElementById('input-nama').value = '';
+      document.getElementById('input-kelas').value = '';
+      document.getElementById('input-surat-juz').value = '';
+      document.getElementById('input-ayat-dari').value = '';
+      document.getElementById('input-ayat-sampai').value = '';
+      document.getElementById('input-catatan').value = '';
+      selectedPredikat = '';
+      selectJenis('Surat');
+
+      document.querySelectorAll('.predikat-btn').forEach(btn => {
+        btn.classList.remove('border-blue-500', 'bg-blue-500/20', 'text-blue-300');
+        btn.classList.add('border-slate-600', 'text-slate-400');
+      });
+    }
+
+    function showSuccessModal(record, googleSynced) {
+      const modal = document.getElementById('success-modal');
+      const detail = document.getElementById('success-detail');
+
+      detail.innerHTML = `
+        <div class="flex justify-between"><span class="text-slate-500">Santri:</span><span class="text-slate-100 font-semibold">${escapeHtml(record.nama)}</span></div>
+        <div class="flex justify-between"><span class="text-slate-500">Kelas:</span><span class="text-slate-100 font-semibold">${escapeHtml(record.kelas)}</span></div>
+        <div class="flex justify-between"><span class="text-slate-500">${record.jenis_setoran}:</span><span class="text-slate-100 font-semibold">${escapeHtml(record.surat_juz)}</span></div>
+        <div class="flex justify-between"><span class="text-slate-500">Ayat:</span><span class="text-slate-100 font-semibold">${record.ayat_dari} - ${record.ayat_sampai}</span></div>
+        <div class="flex justify-between"><span class="text-slate-500">Predikat:</span><span class="text-slate-100 font-semibold">${escapeHtml(record.predikat)}</span></div>
+      `;
+
+      modal.classList.add('show');
+    }
+
+    function closeSuccessModal() {
+      document.getElementById('success-modal').classList.remove('show');
+    }
+
+    // Muroja'ah Functions
+    function filterMurojaStudents() {
+      const input = document.getElementById('muroja-nama');
+      const dropdown = document.getElementById('muroja-students-dropdown');
+      const value = input.value.trim().toLowerCase();
+
+      if (value.length === 0) {
+        dropdown.classList.add('hidden');
+        return;
+      }
+
+      let filtered = allStudents.filter(s => s.nama.toLowerCase().includes(value));
+      if (filtered.length === 0) {
+        dropdown.classList.add('hidden');
+        return;
+      }
+
+      dropdown.innerHTML = '';
+      filtered.slice(0, 10).forEach(student => {
+        const item = document.createElement('div');
+        item.className = 'px-4 py-2.5 hover:bg-slate-700/50 cursor-pointer text-slate-200 hover:text-blue-300 text-sm transition-all duration-150 border-b border-slate-700/30 last:border-0';
+        item.textContent = `${student.nama} (${student.kelas})`;
+        item.onclick = () => selectMurojaStudent(student);
+        dropdown.appendChild(item);
+      });
+
+      dropdown.classList.remove('hidden');
+    }
+
+    function selectMurojaStudent(student) {
+      document.getElementById('muroja-nama').value = student.nama;
+      document.getElementById('muroja-kelas').value = student.kelas;
+      document.getElementById('muroja-students-dropdown').classList.add('hidden');
+      document.getElementById('err-muroja-nama').classList.add('hidden');
+    }
+
+    function selectMurojaJenis(jenis) {
+      selectedMurojaJenis = jenis;
+      const btnSurat = document.getElementById('muroja-btn-surat');
+      const btnJuz = document.getElementById('muroja-btn-juz');
+      const label = document.getElementById('muroja-label-surat-juz');
+      const input = document.getElementById('muroja-surat-juz');
+
+      if (jenis === 'Surat') {
+        btnSurat.className = 'flex-1 py-2.5 px-4 rounded-xl border-2 border-blue-500 bg-blue-500/20 text-blue-300 font-semibold transition-all duration-200';
+        btnJuz.className = 'flex-1 py-2.5 px-4 rounded-xl border-2 border-slate-600 bg-transparent text-slate-400 font-semibold transition-all duration-200';
+        label.textContent = 'Nama Surat';
+        input.placeholder = 'Cari atau ketik nama surat...';
+      } else {
+        btnJuz.className = 'flex-1 py-2.5 px-4 rounded-xl border-2 border-blue-500 bg-blue-500/20 text-blue-300 font-semibold transition-all duration-200';
+        btnSurat.className = 'flex-1 py-2.5 px-4 rounded-xl border-2 border-slate-600 bg-transparent text-slate-400 font-semibold transition-all duration-200';
+        label.textContent = 'Nomor Juz';
+        input.placeholder = 'Contoh: Juz 30';
+      }
+      input.value = '';
+      closeMurojaSuratDropdown();
+    }
+
+    function filterMurojaSurat() {
+      const input = document.getElementById('muroja-surat-juz');
+      const dropdown = document.getElementById('muroja-surat-dropdown');
+      const value = input.value.trim().toLowerCase();
+
+      if (value.length === 0) {
+        closeMurojaSuratDropdown();
+        return;
+      }
+
+      let filtered = suratList.filter(s => s.toLowerCase().includes(value));
+      if (filtered.length === 0) {
+        closeMurojaSuratDropdown();
+        return;
+      }
+
+      dropdown.innerHTML = '';
+      filtered.slice(0, 10).forEach(surat => {
+        const item = document.createElement('div');
+        item.className = 'px-4 py-2.5 hover:bg-slate-700/50 cursor-pointer text-slate-200 hover:text-blue-300 text-sm transition-all duration-150 border-b border-slate-700/30 last:border-0';
+        item.textContent = surat;
+        item.onclick = () => selectMurojaSurat(surat);
+        dropdown.appendChild(item);
+      });
+
+      dropdown.classList.remove('hidden');
+    }
+
+    function selectMurojaSurat(surat) {
+      document.getElementById('muroja-surat-juz').value = surat;
+      closeMurojaSuratDropdown();
+      document.getElementById('err-muroja-surat-juz').classList.add('hidden');
+    }
+
+    function closeMurojaSuratDropdown() {
+      document.getElementById('muroja-surat-dropdown').classList.add('hidden');
+    }
+
+    function selectMurojaPredikat(predikat) {
+      selectedMurojaPredikat = predikat;
+      document.getElementById('err-muroja-predikat').classList.add('hidden');
+
+      document.querySelectorAll('.muroja-predikat-btn').forEach(btn => {
+        const val = btn.getAttribute('data-val');
+        if (val === predikat) {
+          btn.classList.remove('border-slate-600', 'text-slate-400');
+          btn.classList.add('border-blue-500', 'bg-blue-500/20', 'text-blue-300');
+        } else {
+          btn.classList.remove('border-blue-500', 'bg-blue-500/20', 'text-blue-300');
+          btn.classList.add('border-slate-600', 'text-slate-400');
+        }
+      });
+    }
+
+    function validateMurojaForm() {
+      let valid = true;
+      const fields = [
+        { id: 'muroja-tanggal', err: 'err-muroja-tanggal' },
+        { id: 'muroja-nama', err: 'err-muroja-nama' },
+        { id: 'muroja-kelas', err: 'err-muroja-kelas' },
+        { id: 'muroja-surat-juz', err: 'err-muroja-surat-juz' },
+        { id: 'muroja-ayat-dari', err: 'err-muroja-ayat-dari' },
+        { id: 'muroja-ayat-sampai', err: 'err-muroja-ayat-sampai' }
+      ];
+
+      fields.forEach(f => {
+        const el = document.getElementById(f.id);
+        const errEl = document.getElementById(f.err);
+        if (!el.value.trim()) {
+          errEl.classList.remove('hidden');
+          valid = false;
+        } else {
+          errEl.classList.add('hidden');
+        }
+      });
+
+      if (!selectedMurojaPredikat) {
+        document.getElementById('err-muroja-predikat').classList.remove('hidden');
+        valid = false;
+      }
+
+      return valid;
+    }
+
+    async function submitMuroja() {
+      if (!validateMurojaForm()) {
+        showToast('Lengkapi semua field yang wajib diisi', 'error');
+        return;
+      }
+
+      if (allStudents.length + allRecords.length + allMurojaRecords.length >= 999) {
+        showToast('Batas maksimum 999 data tercapai', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('muroja-btn-submit');
+      const btnText = document.getElementById('muroja-btn-submit-text');
+      const btnLoading = document.getElementById('muroja-btn-submit-loading');
+
+      btn.disabled = true;
+      btn.style.opacity = '0.7';
+      btnText.classList.add('hidden');
+      btnLoading.classList.remove('hidden');
+
+      const tanggalInput = document.getElementById('muroja-tanggal').value;
+      const tanggalObj = new Date(tanggalInput + 'T00:00:00');
+      const hariOptions = { weekday: 'long' };
+      const tanggalOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+      
+      const hari = tanggalObj.toLocaleDateString('id-ID', hariOptions);
+      const tanggalDisplay = tanggalObj.toLocaleDateString('id-ID', tanggalOptions);
+      const now = new Date();
+      const timeOptions = { hour: '2-digit', minute: '2-digit' };
+      const waktu = now.toLocaleTimeString('id-ID', timeOptions);
+
+      const murojaRecord = {
+        type: 'muroja',
+        tanggal_display: tanggalDisplay,
+        hari: hari,
+        nama: document.getElementById('muroja-nama').value.trim(),
+        kelas: document.getElementById('muroja-kelas').value,
+        jenis: selectedMurojaJenis,
+        surat_juz: document.getElementById('muroja-surat-juz').value.trim(),
+        ayat_dari: document.getElementById('muroja-ayat-dari').value.trim(),
+        ayat_sampai: document.getElementById('muroja-ayat-sampai').value.trim(),
+        predikat: selectedMurojaPredikat,
+        catatan: document.getElementById('muroja-catatan').value.trim(),
+        waktu: waktu,
+        tanggal: tanggalObj.toISOString(),
+        google_sheets_sync: false,
+        sheet_name: "Muroja'ah"
+      };
+
+      const googleSheetsSynced = await sendToGoogleSheets(murojaRecord);
+      murojaRecord.google_sheets_sync = googleSheetsSynced;
+
+      if (window.dataSdk) {
+        const result = await window.dataSdk.create(murojaRecord);
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btnText.classList.remove('hidden');
+        btnLoading.classList.add('hidden');
+
+        if (result.isOk) {
+          showToast('✅ Muroja\'ah berhasil disimpan!', 'success');
+          resetMurojaForm();
+        } else {
+          showToast('Gagal menyimpan muroja\'ah', 'error');
+        }
+      }
+    }
+
+    function resetMurojaForm() {
+      document.getElementById('muroja-tanggal').value = '';
+      document.getElementById('muroja-nama').value = '';
+      document.getElementById('muroja-kelas').value = '';
+      document.getElementById('muroja-surat-juz').value = '';
+      document.getElementById('muroja-ayat-dari').value = '';
+      document.getElementById('muroja-ayat-sampai').value = '';
+      document.getElementById('muroja-catatan').value = '';
+      selectedMurojaPredikat = '';
+      selectMurojaJenis('Surat');
+
+      document.querySelectorAll('.muroja-predikat-btn').forEach(btn => {
+        btn.classList.remove('border-blue-500', 'bg-blue-500/20', 'text-blue-300');
+        btn.classList.add('border-slate-600', 'text-slate-400');
+      });
+    }
+
+    function renderMurojaTable() {
+      const tbody = document.getElementById('muroja-tbody');
+      
+      if (allMurojaRecords.length === 0) {
+        tbody.innerHTML = '<tr class="border-b border-slate-700/30"><td colspan="8" class="text-center py-6 text-slate-500">Belum ada muroja\'ah</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = allMurojaRecords.map(record => `
+        <tr class="border-b border-slate-700/30 hover:bg-slate-900/30 transition-colors">
+          <td class="px-3 py-2 text-slate-300">${escapeHtml(record.tanggal_display)}</td>
+          <td class="px-3 py-2 text-slate-100 font-semibold">${escapeHtml(record.nama)}</td>
+          <td class="px-3 py-2 text-slate-400">${escapeHtml(record.kelas)}</td>
+          <td class="px-3 py-2 text-slate-400">${escapeHtml(record.surat_juz)}</td>
+          <td class="px-3 py-2 text-slate-400 text-center">${record.ayat_dari}-${record.ayat_sampai}</td>
+          <td class="px-3 py-2 text-slate-400">${escapeHtml(record.predikat)}</td>
+          <td class="px-3 py-2 text-slate-500">${record.waktu}</td>
+          <td class="px-3 py-2 text-center">
+            <button onclick="requestDeleteMuroja(allMurojaRecords.find(r => r.__backendId === '${record.__backendId}'))" class="text-red-400 hover:text-red-300 transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function requestDeleteMuroja(record) {
+      deleteTarget = record;
+      const modal = document.getElementById('delete-modal');
+      const detail = document.getElementById('delete-detail');
+      detail.textContent = `${record.nama} - ${record.surat_juz} (${record.tanggal_display})`;
+      modal.classList.add('show');
+    }
+
+    function requestDelete(record) {
+      deleteTarget = record;
+      const modal = document.getElementById('delete-modal');
+      const detail = document.getElementById('delete-detail');
+      detail.textContent = `${record.nama} - ${record.surat_juz} (${record.hari}, ${record.tanggal_display})`;
+      modal.classList.add('show');
+    }
+
+    function closeDeleteModal() {
+      deleteTarget = null;
+      document.getElementById('delete-modal').classList.remove('show');
+    }
+
+    async function confirmDelete() {
+      if (!deleteTarget || !window.dataSdk) return;
+
+      const btn = document.getElementById('btn-confirm-delete');
+      btn.disabled = true;
+      btn.textContent = 'Menghapus...';
+
+      const result = await window.dataSdk.delete(deleteTarget);
+      btn.disabled = false;
+      btn.textContent = 'Hapus';
+
+      if (result.isOk) {
+        showToast('Data berhasil dihapus', 'success');
+      } else {
+        showToast('Gagal menghapus data', 'error');
+      }
+
+      closeDeleteModal();
+    }
+
+    function requestDeleteStudent(student) {
+      deleteStudentTarget = student;
+      const modal = document.getElementById('delete-student-modal');
+      const detail = document.getElementById('delete-student-detail');
+      detail.textContent = `${student.nama} (${student.kelas})`;
+      modal.classList.add('show');
+    }
+
+    function closeDeleteStudentModal() {
+      deleteStudentTarget = null;
+      document.getElementById('delete-student-modal').classList.remove('show');
+    }
+
+    async function confirmDeleteStudent() {
+      if (!deleteStudentTarget || !window.dataSdk) return;
+
+      const btn = document.getElementById('btn-confirm-delete-student');
+      btn.disabled = true;
+      btn.textContent = 'Menghapus...';
+
+      const result = await window.dataSdk.delete(deleteStudentTarget);
+      btn.disabled = false;
+      btn.textContent = 'Hapus';
+
+      if (result.isOk) {
+        showToast('Siswa berhasil dihapus', 'success');
+      } else {
+        showToast('Gagal menghapus siswa', 'error');
+      }
+
+      closeDeleteStudentModal();
+    }
+
+    function renderRecords() {
+      const container = document.getElementById('records-container');
+      const emptyState = document.getElementById('empty-state');
+      const totalEl = document.getElementById('total-records');
+
+      let filtered = allRecords;
+
+      if (searchQuery) {
+        const q = searchQuery.toLowerCase();
+        filtered = filtered.filter(r => (r.nama || '').toLowerCase().includes(q) || (r.surat_juz || '').toLowerCase().includes(q));
+      }
+
+      if (currentFilter) {
+        filtered = filtered.filter(r => (r.kelas || '').startsWith(currentFilter));
+      }
+
+      totalEl.textContent = `${filtered.length} data`;
+
+      if (filtered.length === 0) {
+        container.querySelectorAll('.record-card').forEach(c => c.remove());
+        emptyState.style.display = 'block';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+
+      const existingMap = new Map();
+      container.querySelectorAll('.record-card').forEach(el => {
+        existingMap.set(el.dataset.recordId, el);
+      });
+
+      const newIds = new Set(filtered.map(r => r.__backendId));
+
+      existingMap.forEach((el, id) => {
+        if (!newIds.has(id)) el.remove();
+      });
+
+      filtered.forEach((record, idx) => {
+        const id = record.__backendId;
+        if (existingMap.has(id)) {
+          updateRecordCard(existingMap.get(id), record);
+        } else {
+          const card = createRecordCard(record, idx);
+          container.appendChild(card);
+        }
+      });
+    }
+
+    function createRecordCard(record, idx) {
+      const card = document.createElement('div');
+      card.className = 'record-card rounded-2xl p-4 anim-fade-up';
+      card.style.animationDelay = `${Math.min(idx * 0.05, 0.3)}s`;
+      card.dataset.recordId = record.__backendId;
+      populateCard(card, record);
+      return card;
+    }
+
+    function updateRecordCard(card, record) {
+      populateCard(card, record);
+    }
+
+    function populateCard(card, record) {
+      const badgeClass = getBadgeClass(record.predikat);
+      card.innerHTML = `
+        <div class="flex items-start justify-between mb-2">
+          <div class="flex-1 min-w-0">
+            <h4 class="text-slate-100 font-bold text-sm">${escapeHtml(record.nama || '')}</h4>
+            <p class="text-slate-500 text-xs mt-0.5">${escapeHtml(record.kelas || '')} · ${record.hari || '-'}</p>
+          </div>
+          <span class="${badgeClass} text-xs font-bold text-white px-2.5 py-1 rounded-lg shrink-0 ml-2">${escapeHtml(record.predikat || '')}</span>
+        </div>
+        <div class="flex items-center gap-2 text-xs flex-wrap mb-2">
+          <span class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-700/30 text-slate-300 font-medium">
+            ${record.jenis_setoran === 'Juz' ? '📘' : '📗'} ${escapeHtml(record.surat_juz || '')}
+          </span>
+          <span class="text-slate-500">Ayat ${record.ayat_dari || '?'} - ${record.ayat_sampai || '?'}</span>
+        </div>
+        ${record.catatan ? `<p class="text-xs text-slate-500 italic border-t border-slate-700/30 pt-2">📝 ${escapeHtml(record.catatan)}</p>` : ''}
+        <div class="flex justify-end mt-2">
+          <button onclick="requestDelete(allRecords.find(r => r.__backendId === '${record.__backendId}'))" class="text-xs text-red-400 hover:text-red-300 font-medium transition-colors duration-200 flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-red-500/10">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            Hapus
+          </button>
+        </div>
+      `;
+    }
+
+    function getBadgeClass(predikat) {
+      const map = {
+        'Mumtaz': 'badge-mumtaz',
+        'Jayyid Jiddan': 'badge-jayyid-jiddan',
+        'Jayyid': 'badge-jayyid',
+        'Maqbul': 'badge-maqbul',
+        "Perlu Muraja'ah": 'badge-perlu-muraja'
+      };
+      return map[predikat] || 'bg-slate-600 text-slate-300';
+    }
+
+    function filterRecords() {
+      searchQuery = document.getElementById('search-input').value;
+      renderRecords();
+    }
+
+    function filterByKelas(kelas) {
+      currentFilter = kelas;
+      document.querySelectorAll('.kelas-filter').forEach(btn => {
+        if (btn.getAttribute('data-kelas') === kelas) {
+          btn.className = 'kelas-filter shrink-0 text-xs font-semibold px-4 py-2 rounded-full transition-all bg-blue-500/20 border border-blue-500 text-blue-300';
+        } else {
+          btn.className = 'kelas-filter shrink-0 text-xs font-semibold px-4 py-2 rounded-full transition-all bg-slate-700/30 border border-slate-600 text-slate-300';
+        }
+      });
+      renderRecords();
+    }
+
+    function showToast(message, type) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const bgColor = type === 'success' ? 'bg-gradient-to-r from-emerald-600 to-green-600' : 'bg-gradient-to-r from-red-600 to-red-700';
+      const icon = type === 'success'
+        ? '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>'
+        : '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/></svg>';
+
+      toast.className = `toast-anim ${bgColor} text-white text-sm font-medium px-4 py-3 rounded-xl shadow-lg flex items-center gap-2`;
+      toast.innerHTML = `${icon} ${escapeHtml(message)}`;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        if (toast.parentNode) toast.remove();
+      }, 3600);
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.appendChild(document.createTextNode(str || ''));
+      return div.innerHTML;
+    }
+
+    updateDateDisplay();
+    setInterval(updateDateDisplay, 60000);
+    switchTab('form');
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cd18141f2d95ce7',t:'MTc3MDk1NjEyOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
